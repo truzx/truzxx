@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Analytics Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #0f1124;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      color: white;
+    }
+    .glass-nav {
+      background: rgba(15, 17, 36, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 2rem;
+      transition: all 0.4s ease;
+      opacity: 1;
+      z-index: 50;
+    }
+    .nav-hidden {
+      top: -100px !important;
+      opacity: 0 !important;
+    }
+    .glass-box {
+      background: rgba(23, 25, 48, 0.8);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* ✅ Stylish Days List */
+    #daysList {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #daysList li {
+      background: rgba(91, 77, 247, 0.1);
+      border: 1px solid rgba(91, 77, 247, 0.2);
+      color: #cfcfff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    #daysList li:hover {
+      background: rgba(91, 77, 247, 0.3);
+      color: #ffffff;
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(91, 77, 247, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🔹 Top Navbar -->
+  <div id="navbar" class="glass-nav rounded-3xl shadow-lg px-10 py-5 flex items-center justify-center space-x-10">
+    <a href="index.html" title="Home" class="text-white hover:text-[#5b4df7] transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+      </svg>
+    </a>
+
+    <button title="Coming soon" class="text-white hover:text-[#5b4df7] transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 8.373 11.627 3 5 3z"/>
+        <path d="M4 9a1 1 0 011-1 7 7 0 017 7 1 1 0 11-2 0 5 5 0 00-5-5 1 1 0 01-1-1zM3 15a2 2 0 114 0 2 2 0 01-4 0z"/>
+      </svg>
+    </button>
+
+    <a href="dashboard.html" title="Dashboard" class="text-white hover:text-[#5b4df7] transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- 🔹 Dashboard Content -->
+  <main class="mt-40 px-6 max-w-5xl mx-auto pb-80" id="dashboardContent">
+    <!-- ^ added pb-80 for extra scroll space -->
+
+    <section class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center h-9 w-9 rounded-md bg-[#5b4df7]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+          <h3 id="performanceTitle" class="text-lg font-semibold text-white">Performance Analytics</h3>
+        </div>
+        <span class="flex items-center gap-1 bg-green-500/10 text-green-400 text-sm font-medium rounded-full px-3 py-1">
+          <span class="h-2 w-2 rounded-full bg-green-400"></span> Live
+        </span>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 gap-6 mb-10">
+        <div class="bg-[#171930] p-5 rounded-lg">
+          <p class="text-sm text-gray-400">Total Views</p>
+          <p class="text-3xl font-bold text-white">24.5K</p>
+          <span class="text-sm text-green-400 font-medium">+12.3%</span>
+        </div>
+        <div class="bg-[#171930] p-5 rounded-lg">
+          <p class="text-sm text-gray-400">Conversions</p>
+          <p class="text-3xl font-bold text-white">1.2K</p>
+          <span class="text-sm text-green-400 font-medium">+8.1%</span>
+        </div>
+      </div>
+
+      <!-- Graph -->
+      <div class="bg-[#171930] rounded-lg p-5 h-52 mb-10">
+        <div class="flex h-full items-end justify-between gap-3">
+          <div class="h-[30%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[70%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[50%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[50%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[75%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[80%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[45%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[55%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[85%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[90%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[65%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[70%] w-full bg-[#5b4df7] rounded-md"></div></div>
+          <div class="h-[95%] w-6 bg-[#5b4df7]/30 rounded-md"><div class="h-[85%] w-full bg-[#5b4df7] rounded-md"></div></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between relative mb-10">
+        <div id="last7daysBtn" class="flex items-center gap-2 text-gray-300 text-sm cursor-pointer hover:text-white transition">
+          Last 7 days
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+
+        <button class="bg-[#5b4df7] hover:bg-[#6b5ff9] text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2">
+          View Details
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <!-- ✅ Dropdown Box -->
+        <div id="daysBox" class="hidden absolute top-8 -left-6 mt-3 glass-box rounded-lg p-3 w-32 shadow-xl border border-[#1b1e3a] text-sm">
+          <ul id="daysList">
+            <li>Day 1</li>
+            <li>Day 2</li>
+            <li>Day 3</li>
+            <li>Day 4</li>
+            <li>Day 5</li>
+            <li>Day 6</li>
+            <li>Day 7</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ✅ JS -->
+  <script>
+    const btn = document.getElementById("last7daysBtn");
+    const box = document.getElementById("daysBox");
+    const navbar = document.getElementById("navbar");
+    const performanceTitle = document.getElementById("performanceTitle");
+
+    btn.addEventListener("click", () => box.classList.toggle("hidden"));
+
+    let lastScroll = 0;
+
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll && currentScroll > 120) {
+        navbar.classList.add("nav-hidden");
+      } else {
+        navbar.classList.remove("nav-hidden");
+      }
+      lastScroll = currentScroll;
+    });
+  </script>
+</body>
+</html>
